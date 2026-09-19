@@ -82,7 +82,7 @@
             { title: 'Eroded', img: M.erode(base, 3, 2) }
           ],
           outputs: [
-            { label: 'Source', value: (p.img && p.img.w) ? 'Uploaded image' : 'Synthetic phantom' },
+            { label: 'Source', value: (p.img && p.img.w) ? 'Uploaded image' : (sample(p.base) ? 'Bundled real image' : 'Synthetic phantom') },
             { label: 'Size', value: `${base.w} × ${base.h}` },
             { label: 'Operations', value: '9 shown' }
           ]
