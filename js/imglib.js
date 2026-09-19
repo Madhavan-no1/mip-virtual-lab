@@ -566,6 +566,23 @@
     return { seg: labelsToColor(labels, w, h, maxOf(labels)), overlay: out };
   }
 
+  /* --------------------------- registration ------------------------------ */
+  // Normalised cross-correlation between two same-size gray images (−1..1).
+  function ncc(A, B) {
+    A = toGray(A); B = matchSize(A, toGray(B)); const n = A.w * A.h;
+    let ma = 0, mb = 0; for (let i = 0; i < n; i++) { ma += A.data[i]; mb += B.data[i]; } ma /= n; mb /= n;
+    let num = 0, da = 0, db = 0;
+    for (let i = 0; i < n; i++) { const a = A.data[i] - ma, b = B.data[i] - mb; num += a * b; da += a * a; db += b * b; }
+    return num / (Math.sqrt(da * db) + 1e-9);
+  }
+  // False-colour overlay of two images: reference→green, other→magenta
+  // (well-aligned pixels appear neutral grey).
+  function overlayPair(ref, img) {
+    const R = toGray(ref), I = matchSize(R, toGray(img)), c = C(R.w, R.h);
+    for (let i = 0; i < R.w * R.h; i++) { c.r[i] = I.data[i]; c.g[i] = R.data[i]; c.b[i] = I.data[i]; }
+    return c;
+  }
+
   /* ------------------------------- fusion -------------------------------- */
   const fuseWeighted = (a, b, alpha) => addWeighted(a, alpha, b, 1 - alpha, 0);
   // One-level 2-D Haar DWT/IDWT (image dims are made even by cropping).
@@ -739,6 +756,8 @@
     otsu, threshold, distanceTransform, connectedComponents, labelsToColor, watershed,
     // fusion
     fuseWeighted, fuseWavelet, fusePCA, haarDWT, haarIDWT,
+    // registration
+    ncc, overlayPair,
     // phantoms
     phantom
   };

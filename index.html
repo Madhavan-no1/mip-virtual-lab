@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SRM Virtual Lab — Medical Image Processing (BME)</title>
-  <meta name="description" content="Interactive virtual laboratory for B.Tech Biomedical Engineering — 11 Medical Image Processing experiments at SRM Institute of Science and Technology." />
+  <meta name="description" content="Interactive virtual laboratory for B.Tech Biomedical Engineering — 12 Medical Image Processing experiments at SRM Institute of Science and Technology." />
   <style>
     :root{
       --navy:#064e46; --blue:#0b7a70; --blue2:#0d9488; --sky:#2dd4bf;
@@ -186,14 +186,14 @@
       <div class="hero-dept">Department of <b>Biomedical Engineering</b></div>
       <div class="hero-course">B.Tech Biomedical Engineering · 21BMC304J · III Year · VI Semester · 2025–26</div>
       <h1>SRM Virtual Lab <span>Medical Image Processing</span></h1>
-      <p class="lead">Acquire, transform, enhance, reconstruct and segment medical images — CT, MRI and X-ray — through eleven interactive experiments that run entirely in your browser.</p>
+      <p class="lead">Acquire, transform, enhance, reconstruct and segment medical images — CT, MRI and X-ray — through twelve interactive experiments that run entirely in your browser.</p>
       <div class="hero-btns">
         <a href="lab.html" class="btn btn-primary">▶ Start Experiments</a>
         <a href="#about" class="btn btn-ghost">Course Overview</a>
         <a href="#curriculum" class="btn btn-ghost">Curriculum</a>
       </div>
       <div class="stats">
-        <div class="stat"><b>11</b><span>Experiments</span></div>
+        <div class="stat"><b>12</b><span>Experiments</span></div>
         <div class="stat"><b>3-0-2-4</b><span>Credits (L-T-P-C)</span></div>
         <div class="stat"><b>VI</b><span>Semester</span></div>
         <div class="stat"><b>2021</b><span>Regulation</span></div>
@@ -277,7 +277,7 @@
       <div class="sec-head">
         <div class="eyebrow">Hands-on Learning</div>
         <h2>Virtual Experiments</h2>
-        <p>Eleven interactive simulations covering image operations, transforms, enhancement, reconstruction and segmentation.</p>
+        <p>Twelve interactive simulations covering image operations, transforms, enhancement, reconstruction and segmentation.</p>
       </div>
       <div id="exp-container"></div>
     </div>
@@ -334,7 +334,7 @@
   <section style="padding-top:0;">
     <div class="cta-band">
       <h2>Ready to start the lab?</h2>
-      <p>Launch the interactive workbench and run all eleven Medical Image Processing experiments right in your browser.</p>
+      <p>Launch the interactive workbench and run all twelve Medical Image Processing experiments right in your browser.</p>
       <a href="lab.html" class="btn btn-primary" style="position:relative;">▶ Open Virtual Lab</a>
     </div>
   </section>
@@ -400,6 +400,9 @@
       ]},
       { name: 'Fusion', items: [
         [11, 'Image Fusion', 'Fuse two images by weighted, Haar-wavelet and PCA methods.', ['Wavelet','PCA']]
+      ]},
+      { name: 'Registration', items: [
+        [12, 'Image Registration', 'Align a misaligned scan to a reference and recover the transform (NCC / ORB).', ['Alignment','NCC']]
       ]}
     ];
     const cont = document.getElementById('exp-container');

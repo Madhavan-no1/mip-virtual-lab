@@ -489,6 +489,77 @@
           ]
         };
       }
+    },
+
+    /* ------------------------------------------------------------------ 12 */
+    {
+      id: 12, title: 'Image Registration', tag: 'Registration',
+      aim: 'To align a misaligned medical image to a reference image (rigid registration) and recover the geometric transform between them.',
+      theory: `<b>Image registration</b> aligns two images of the same scene into one coordinate
+        system — essential for comparing follow-up scans, fusing modalities and building panoramas.
+        <ul>
+          <li><b>Feature-based</b> (as in the OpenCV workflow): detect keypoints and descriptors
+              (<b>ORB</b>), match them (<b>brute-force</b> matcher), reject outliers and estimate a
+              <b>homography</b> with RANSAC, then warp the moving image.</li>
+          <li><b>Intensity-based</b> (used here): search for the geometric transform that maximises
+              image similarity.</li>
+        </ul>
+        This experiment applies a known misalignment (rotation + translation) to a reference scan and
+        recovers it by maximising the <b>normalised cross-correlation (NCC)</b> over rotation and
+        translation, then warps the moving image back into alignment.`,
+      controls: [
+        baseCtrl('brain_mri'),
+        { id: 'angle', label: 'Misalignment rotation (°)', type: 'number', default: 12, step: 1, min: -20, max: 20 },
+        { id: 'tx', label: 'Misalignment shift x (px)', type: 'number', default: 16, step: 2, min: -24, max: 24 },
+        { id: 'ty', label: 'Misalignment shift y (px)', type: 'number', default: -10, step: 2, min: -24, max: 24 },
+        fileCtrl()
+      ],
+      run(p) {
+        const ref = M.toGray(getBase(p, SIZE));
+        const moving = M.translate(M.rotate(ref, p.angle, 1), p.tx, p.ty); // deliberately misaligned
+        // Recover the aligning transform on a downsampled copy (fast), maximising NCC.
+        const S = 72, refS = M.resize(ref, S, S), movS = M.resize(moving, S, S), scale = ref.w / S;
+        const rng = (c, r, s) => { const a = []; for (let v = c - r; v <= c + r; v += s) a.push(v); return a; };
+        function search(ths, txs, tys, seed) {
+          let best = Object.assign({ ncc: -Infinity }, seed);
+          for (const th of ths) { const rot = M.rotate(movS, th, 1);
+            for (const tx of txs) for (const ty of tys) {
+              const v = M.ncc(refS, M.translate(rot, tx, ty));
+              if (v > best.ncc) best = { ncc: v, th, tx, ty };
+            }
+          }
+          return best;
+        }
+        let b = search(rng(0, 20, 4), rng(0, 8, 2), rng(0, 8, 2), { th: 0, tx: 0, ty: 0 }); // coarse
+        b = search(rng(b.th, 3, 1), rng(b.tx, 2, 1), rng(b.ty, 2, 1), b);                    // fine (downsampled)
+        const nccBefore = M.ncc(refS, movS);
+        // final pixel-accurate refinement at full resolution around the estimate
+        let best = { ncc: -Infinity, th: b.th, tx: Math.round(b.tx * scale), ty: Math.round(b.ty * scale) };
+        for (let th = b.th - 1; th <= b.th + 1; th += 0.5) {
+          const rot = M.rotate(moving, th, 1);
+          for (let tx = best.tx - 4; tx <= best.tx + 4; tx++) for (let ty = best.ty - 4; ty <= best.ty + 4; ty++) {
+            const v = M.ncc(ref, M.translate(rot, tx, ty));
+            if (v > best.ncc) best = { ncc: v, th, tx, ty };
+          }
+        }
+        const registered = M.translate(M.rotate(moving, best.th, 1), best.tx, best.ty);
+        const nccAfter = best.ncc;
+        return {
+          images: [
+            { title: 'Reference image', img: ref },
+            { title: `Moving (misaligned: ${p.angle}°, ${p.tx}, ${p.ty})`, img: moving },
+            { title: 'Registered (aligned)', img: registered },
+            { title: 'Overlay before  (ref green · moving magenta)', img: M.overlayPair(ref, moving) },
+            { title: 'Overlay after  (aligned → grey)', img: M.overlayPair(ref, registered) }
+          ],
+          outputs: [
+            { label: 'Recovered rotation', value: round(best.th, 1) + '°' },
+            { label: 'Recovered shift', value: `${best.tx}, ${best.ty} px` },
+            { label: 'NCC before', value: round(nccBefore, 3) },
+            { label: 'NCC after', value: round(nccAfter, 3) }
+          ]
+        };
+      }
     }
   ];
 
@@ -504,7 +575,8 @@
     8: { pre: ['What is k-space in MRI?', 'How is an MRI image reconstructed from k-space?'], post: ['What information sits at the centre vs the edge of k-space?', 'Why take the magnitude of the inverse transform?'] },
     9: { pre: ['Compare first-order (Sobel) and second-order (Laplacian) edge operators.', 'List the stages of the Canny edge detector.'], post: ['What is non-maximum suppression?', 'What is the role of hysteresis thresholding?'] },
     10: { pre: ['What is Otsu’s thresholding method?', 'What does the distance transform compute?'], post: ['Why are markers needed for the watershed algorithm?', 'What problem does the watershed algorithm solve for touching objects?'] },
-    11: { pre: ['What is image fusion and why is it useful in medical imaging?', 'State the weighted-fusion rule.'], post: ['How does wavelet fusion combine two images?', 'How does PCA determine the fusion weights?'] }
+    11: { pre: ['What is image fusion and why is it useful in medical imaging?', 'State the weighted-fusion rule.'], post: ['How does wavelet fusion combine two images?', 'How does PCA determine the fusion weights?'] },
+    12: { pre: ['What is image registration and where is it used in medical imaging?', 'What are keypoints and descriptors (e.g. ORB)?'], post: ['Distinguish feature-based from intensity-based registration.', 'What is a homography, and what does RANSAC do during matching?'] }
   };
 
   global.EXPERIMENTS = EXPERIMENTS;

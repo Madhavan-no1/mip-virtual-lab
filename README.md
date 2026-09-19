@@ -2,7 +2,7 @@
 
 An interactive, browser-based virtual laboratory for the **Medical Image
 Processing** course, B.Tech Biomedical Engineering, SRM Institute of Science and
-Technology. Eleven experiments run entirely client-side — **no server, no
+Technology. Twelve experiments run entirely client-side — **no server, no
 Python, no dependencies** — using a from-scratch image-processing engine in
 vanilla JavaScript.
 
@@ -23,7 +23,8 @@ vanilla JavaScript.
 | 8 | Fourier Reconstruction of MRI Images (k-space → IFFT) | Reconstruction |
 | 9 | Advanced Edge Detection (Sobel, Laplacian, Canny) | Segmentation |
 | 10 | Image Segmentation — Watershed Algorithm (Otsu, distance transform, markers) | Segmentation |
-| 11 | Image Fusion (weighted, Haar-wavelet, PCA) | Reconstruction |
+| 11 | Image Fusion (weighted, Haar-wavelet, PCA) | Fusion |
+| 12 | Image Registration (rigid, NCC; ORB/homography concept) | Registration |
 
 Each experiment provides an **Aim**, collapsible **Theory** and **Viva
 questions**, interactive **parameters**, and lets you either use a built-in
