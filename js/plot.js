@@ -43,13 +43,14 @@
     const off = document.createElement('canvas'); off.width = img.w; off.height = img.h;
     off.getContext('2d').putImageData(MIP.toImageData(img), 0, 0);
 
-    // fit within the box preserving aspect ratio
-    const availW = cssW - 8, availH = cssH - titleH - 6;
+    // fit within the box preserving aspect ratio, centred both axes (integer-aligned for crispness)
+    const availW = cssW - 12, availH = cssH - titleH - 10;
     const scale = Math.min(availW / img.w, availH / img.h);
-    const dw = img.w * scale, dh = img.h * scale;
-    const dx = (cssW - dw) / 2, dy = titleH + (availH - dh) / 2;
-    ctx.imageSmoothingEnabled = scale < 3; // crisp when heavily upscaled
-    ctx.drawImage(off, dx, dy, dw, dh);
+    const dw = Math.round(img.w * scale), dh = Math.round(img.h * scale);
+    const dx = Math.round((cssW - dw) / 2), dy = Math.round(titleH + (availH - dh) / 2);
+    ctx.imageSmoothingEnabled = true;          // smooth (bilinear) scaling for clean medical images
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(off, 0, 0, img.w, img.h, dx, dy, dw, dh);
     ctx.strokeStyle = col.frame; ctx.lineWidth = 1; ctx.strokeRect(dx + 0.5, dy + 0.5, dw - 1, dh - 1);
   }
 

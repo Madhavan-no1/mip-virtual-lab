@@ -10,10 +10,10 @@
   const round = (v, n = 3) => Number(v).toFixed(n);
 
   // Standard working sizes (kept modest so everything is instant in-browser).
-  const SIZE = 224;      // general spatial-domain experiments
-  const SIZE_FFT = 192;  // frequency-domain
-  const SIZE_SEG = 200;  // segmentation
-  const SIZE_RAD = 110;  // Radon (square, heavier compute)
+  const SIZE = 300;      // general spatial-domain experiments
+  const SIZE_FFT = 256;  // frequency-domain (power of two)
+  const SIZE_SEG = 256;  // segmentation
+  const SIZE_RAD = 140;  // Radon (square, heavier compute)
 
   // Real bundled medical images (see assets/samples) first, phantoms after.
   const BASES = [
@@ -451,7 +451,7 @@
 
     /* ------------------------------------------------------------------ 11 */
     {
-      id: 11, title: 'Image Fusion', tag: 'Reconstruction',
+      id: 11, title: 'Image Fusion', tag: 'Fusion',
       aim: 'To fuse two medical images using weighted averaging, Haar-wavelet fusion and PCA fusion.',
       theory: `<b>Image fusion</b> combines complementary information from two images into one:
         <ul>

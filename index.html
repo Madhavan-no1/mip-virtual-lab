@@ -392,12 +392,14 @@
       ]},
       { name: 'Reconstruction', items: [
         [7, 'Radon Transform Reconstruction', 'Forward Radon (sinogram) and filtered back-projection reconstruction.', ['Sinogram','FBP']],
-        [8, 'Fourier Reconstruction of MRI', 'Reconstruct an MRI image from its k-space representation.', ['k-space','IFFT']],
-        [11, 'Image Fusion', 'Fuse two images by weighted, Haar-wavelet and PCA methods.', ['Wavelet','PCA']]
+        [8, 'Fourier Reconstruction of MRI', 'Reconstruct an MRI image from its k-space representation.', ['k-space','IFFT']]
       ]},
       { name: 'Segmentation', items: [
         [9, 'Advanced Edge Detection', 'Sobel, Laplacian and Canny edge detection with overlays.', ['Sobel','Canny']],
         [10, 'Watershed Segmentation', 'Otsu threshold, distance transform, markers and watershed regions.', ['Otsu','Watershed']]
+      ]},
+      { name: 'Fusion', items: [
+        [11, 'Image Fusion', 'Fuse two images by weighted, Haar-wavelet and PCA methods.', ['Wavelet','PCA']]
       ]}
     ];
     const cont = document.getElementById('exp-container');
