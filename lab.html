@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medical Image Processing — Virtual Lab</title>
+  <meta name="description" content="Interactive virtual laboratory for 11 Medical Image Processing experiments — image operations, transforms, enhancement, reconstruction and segmentation." />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+</head>
+<body>
+  <div class="app">
+    <aside id="sidebar">
+      <div class="brand">
+        <a class="brand-title" href="index.html" title="Back to home"><span class="brand-mark"><img src="assets/bme-logo.jpg" alt="BME" class="brand-logo" /></span> <span class="brand-text">MIP Virtual Lab</span></a>
+        <div class="brand-sub">Medical Image Processing · 21BMC304J</div>
+        <button id="collapse-btn" class="collapse-btn" title="Collapse sidebar" aria-label="Collapse sidebar">«</button>
+      </div>
+      <nav id="nav"></nav>
+    </aside>
+
+    <div class="content">
+      <div class="topbar">
+        <button id="menu-btn" class="icon-btn" title="Menu">☰</button>
+        <button id="back-btn" class="icon-btn" title="Back">←</button>
+        <h2>Medical Image Processing — Virtual Laboratory</h2>
+        <div class="spacer"></div>
+        <a href="index.html" class="icon-btn home-link" title="Home">⌂</a>
+        <button id="theme-btn" class="icon-btn" title="Toggle theme">☾</button>
+      </div>
+      <main id="main"></main>
+    </div>
+  </div>
+
+  <script src="js/imglib.js?v=4"></script>
+  <script src="js/plot.js?v=4"></script>
+  <script src="js/experiments.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
+</body>
+</html>
